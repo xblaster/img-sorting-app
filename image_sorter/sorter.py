@@ -42,7 +42,7 @@ def sort_images(source_dir, dest_dir, dry_run=False):
                 shutil.move(image_path, os.path.join(new_dir, os.path.basename(image_path)))
             print(f"Dry Run: Moving {image_path} to {os.path.join(new_dir, os.path.basename(image_path))}" if dry_run else f"Moving {image_path} to {os.path.join(new_dir, os.path.basename(image_path))}")
 
-if __name__ == "__main__":
+def main():
     parser = argparse.ArgumentParser(description="Sort images by date into folders.")
     parser.add_argument("source_dir", help="Source directory containing images to sort.")
     parser.add_argument("dest_dir", help="Destination directory to store sorted images.")
@@ -51,3 +51,6 @@ if __name__ == "__main__":
     args = parser.parse_args()
     
     sort_images(args.source_dir, args.dest_dir, args.dry_run)
+
+if __name__ == "__main__":
+    main()
