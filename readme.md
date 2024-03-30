@@ -11,17 +11,18 @@ The Image Sorter script automates the organization of image files into folders b
 ## Prerequisites
 
 - Python 3.x
-- [Pillow](https://pillow.readthedocs.io/en/stable/) for handling image files and EXIF data.
-- [tqdm](https://tqdm.github.io/) for progress bar visualization.
 
 ## Installation
 
-1. Ensure Python 3.x is installed on your system.
-2. Install the required Python packages:
+1. Clone the repository or download the project to your local machine.
+2. Navigate to the project directory.
+3. Install the required Python packages using the `requirements.txt` file:
 
 ```bash
-pip install Pillow tqdm
+pip install -r requirements.txt
 ```
+
+This command will install all necessary dependencies, including Pillow for handling image files and EXIF data, and tqdm for progress bar visualization.
 
 ## Usage
 
