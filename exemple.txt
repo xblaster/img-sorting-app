@@ -1,0 +1,1 @@
+python sorter.py "C:\Users\nospa\OneDrive\Images Pauline\Pellicule" "C:\Users\nospa\OneDrive\Photos" --qualifier Pauline
