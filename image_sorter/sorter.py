@@ -59,17 +59,16 @@ def get_video_date(video_path):
                 return datetime.strptime(date_str, "%Y-%m-%d %H:%M:%S")
     except Exception as e:
         return get_filename_date(video_path)
-        # print(f"Error processing {video_path}: {e}")
     return None
 
-def sort_media(source_dir, dest_dir, qualifier=None, dry_run=False):
+def sort_media(source_dir, dest_dir, qualifier=None, dry_run=False, filter_pxl=False):
     media_paths = [os.path.join(dp, f) for dp, dn, filenames in os.walk(source_dir) for f in filenames if f.lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.bmp', '.mp4', '.mov', '.avi', '.mkv', '.flv', '.wmv'))]
+    
+    if filter_pxl:
+        media_paths = [path for path in media_paths if os.path.basename(path).startswith("PXL")]
     
     for media_path in tqdm(media_paths, desc="Sorting Media"):
         date = get_media_date(media_path) 
-        
-
-
         if date:
             if qualifier:
                 new_dir = os.path.join(dest_dir, f"{date.year}/{date.month:02}/{qualifier}")
@@ -80,7 +79,7 @@ def sort_media(source_dir, dest_dir, qualifier=None, dry_run=False):
                 shutil.move(media_path, os.path.join(new_dir, os.path.basename(media_path)))
             print(f"Dry Run: Moving {media_path} to {os.path.join(new_dir, os.path.basename(media_path))}" if dry_run else f"Moving {media_path} to {os.path.join(new_dir, os.path.basename(media_path))}")
         else:
-            print(f"no date found for {media_path}")
+            print(f"No date found for {media_path}")
 
 def main():
     parser = argparse.ArgumentParser(description="Sort media files by date into folders.")
@@ -88,10 +87,11 @@ def main():
     parser.add_argument("dest_dir", help="Destination directory to store sorted media files.")
     parser.add_argument("--qualifier", help="Optional qualifier for sub-folder categorization.")
     parser.add_argument("--dry-run", action="store_true", help="Simulate the sorting process without moving any files.")
+    parser.add_argument("--filter-pxl", action="store_true", help="Only process files starting with 'PXL'.")
     
     args = parser.parse_args()
     
-    sort_media(args.source_dir, args.dest_dir, args.qualifier, args.dry_run)
+    sort_media(args.source_dir, args.dest_dir, args.qualifier, args.dry_run, args.filter_pxl)
 
 if __name__ == "__main__":
     main()
