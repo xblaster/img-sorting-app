@@ -68,16 +68,18 @@ def sort_media(source_dir, dest_dir, qualifier=None, dry_run=False, filter_pxl=F
         media_paths = [path for path in media_paths if os.path.basename(path).startswith("PXL")]
     
     for media_path in tqdm(media_paths, desc="Sorting Media"):
-        date = get_media_date(media_path) 
+        date = get_media_date(media_path)
         if date:
             if qualifier:
                 new_dir = os.path.join(dest_dir, f"{date.year}/{date.month:02}/{qualifier}")
+                new_filename = f"{qualifier[0].upper()}_{os.path.basename(media_path)}"
             else:
                 new_dir = os.path.join(dest_dir, f"{date.year}/{date.month:02}")
+                new_filename = os.path.basename(media_path)
             if not dry_run:
                 os.makedirs(new_dir, exist_ok=True)
-                shutil.move(media_path, os.path.join(new_dir, os.path.basename(media_path)))
-            print(f"Dry Run: Moving {media_path} to {os.path.join(new_dir, os.path.basename(media_path))}" if dry_run else f"Moving {media_path} to {os.path.join(new_dir, os.path.basename(media_path))}")
+                shutil.move(media_path, os.path.join(new_dir, new_filename))
+            print(f"Dry Run: Moving {media_path} to {os.path.join(new_dir, new_filename)}" if dry_run else f"Moving {media_path} to {os.path.join(new_dir, new_filename)}")
         else:
             print(f"No date found for {media_path}")
 
